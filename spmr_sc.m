@@ -1,46 +1,53 @@
 function result = spmr_sc(varargin)
     % Parse arguments
 
-    inp         = inputParser;
+    inp     = inputParser;
 
     inp.addRequired('K');
     inp.addRequired('g');
     inp.addParameter('tol', 1e-6);
     inp.addParameter('maxit', 10);
+    inp.addParameter('precond', []);
 
     inp.parse(varargin{:});
-    args        = inp.Results;
+    args    = inp.Results;
 
     % Extract arguments
 
-    K           = args.K;
-    g           = args.g;
-    tol         = args.tol;
-    maxit       = args.maxit;
+    K       = args.K;
+    g       = args.g;
+    tol     = args.tol;
+    maxit   = args.maxit;
+    M       = args.precond;
 
     % Initialize SIMBA-SC variables
 
-    beta        = norm(g);
-    v           = g / beta;
-    delta       = beta;
-    z           = v;
+    v_hat   = ldivpc(M, g);
+    beta    = sqrt(dot(v_hat, g));
+    v       = g / beta;
+    v_hat   = v_hat / beta;
 
-    u_hat       = multrans(K.G1, v);
-    w_hat       = multrans(K.G2, z);
-    u           = ldiv(K.A, u_hat);
-    w           = ldivtrans(K.A, w_hat);
+    delta   = beta;
+    z       = v;
+    z_hat   = v_hat;
 
-    xi          = dot(u_hat, w);
-    alpha       = sqrt(abs(xi));
-    gamma       = alpha;
+    u_hat   = multrans(K.G1, v_hat);
+    w_hat   = multrans(K.G2, z_hat);
 
-    u           = sign(xi) / alpha * u;
-    w           = sign(xi) / gamma * w;
+    u       = ldiv(K.A, u_hat);
+    w       = ldivtrans(K.A, w_hat);
+
+    xi      = dot(u_hat, w);
+    alpha   = sqrt(abs(xi));
+    gamma   = alpha;
+
+    u       = sign(xi) / alpha * u;
+    w       = sign(xi) / gamma * w;
 
     % Initialize QR variables
 
-    rho_bar     = gamma;
-    phi_bar     = delta;
+    rho_bar = gamma;
+    phi_bar = delta;
 
     % Initialize variables for x updates
 
@@ -66,6 +73,8 @@ function result = spmr_sc(varargin)
 
     % Finish setting up
 
+    result.iter = 0;
+
     if abs(xi) < eps
         result.flag     = SpmrFlag.OTHER;
         result.resvec   = [];
@@ -73,33 +82,36 @@ function result = spmr_sc(varargin)
     end
 
     result.flag = SpmrFlag.MAXIT_EXCEEDED;
-    result.iter = 0;
 
     % SPMR-SC iteration
 
     while result.iter < K.m
         if result.iter > maxit
             result.iter     = maxit;
-            result.resvec   = result.resvec(1:result.iter);
-            return;
+            break;
         elseif abs(xi) < eps
             result.flag     = SpmrFlag.OTHER;
             result.iter     = result.iter - 1;
-            result.resvec   = result.resvec(1:result.iter);
-            return;
+            break;
         end
 
         % SIMBA-SC iteration
 
         v       = mul(K.G1, w) - alpha * v;
         z       = mul(K.G2, u) - gamma * z;
-        beta    = norm(v);
-        v       = normalize(v, 'norm');
-        delta   = norm(z);
-        z       = normalize(z, 'norm');
+        v_hat   = ldivpc(M, v);
+        z_hat   = ldivpc(M, z);
 
-        u_hat   = multrans(K.G1, v);
-        w_hat   = multrans(K.G2, z);
+        beta    = sqrt(dot(v_hat, v));
+        delta   = sqrt(dot(z_hat, z));
+
+        v       = v / beta;
+        z       = z / delta;
+        v_hat   = v_hat / beta;
+        z_hat   = z_hat / delta;
+
+        u_hat   = multrans(K.G1, v_hat);
+        w_hat   = multrans(K.G2, z_hat);
 
         u       = ldiv(K.A, u_hat) - sign(xi) * beta * u;
         w       = ldivtrans(K.A, w_hat) - sign(xi) * delta * w;
@@ -124,28 +136,28 @@ function result = spmr_sc(varargin)
 
         % Update x
 
-        result.x        = result.x + phi/rho * d;
-        d               = u - sigma/rho * d;
+        result.x    = result.x + phi/rho * d;
+        d           = u - sigma/rho * d;
 
         % Update y
 
-        lambda          = sign(xi_prev) * rho * alpha_prev;
-        T(:, 1)         = (T(:, 1) - mu * T(:, 2) - nu * T(:, 3)) / lambda;
-        result.y        = result.y - phi * T(:, 1);
+        lambda      = sign(xi_prev) * rho * alpha_prev;
+        T(:, 1)     = (T(:, 1) - mu * T(:, 2) - nu * T(:, 3)) / lambda;
+        result.y    = result.y - phi * T(:, 1);
 
-        T(:, 3)         = T(:, 2);
-        T(:, 2)         = T(:, 1);
-        T(:, 1)         = v;
-        mu              = sign(xi_prev) * rho * beta + sign(xi) * sigma * alpha;
-        nu              = sign(xi_prev) * sigma_prev * beta;
+        T(:, 3)     = T(:, 2);
+        T(:, 2)     = T(:, 1);
+        T(:, 1)     = v;
+        mu          = sign(xi_prev) * rho * beta + sign(xi) * sigma * alpha;
+        nu          = sign(xi_prev) * sigma_prev * beta;
 
-        alpha_prev      = alpha;
-        xi_prev         = xi;
-        sigma_prev      = sigma;
+        alpha_prev  = alpha;
+        xi_prev     = xi;
+        sigma_prev  = sigma;
 
         % Update residual
 
-        result.iter     = result.iter + 1;
+        result.iter = result.iter + 1;
 
         if result.iter == 1
             result.resvec(result.iter)  = s;
@@ -155,8 +167,10 @@ function result = spmr_sc(varargin)
 
         if result.resvec(result.iter) < tol
             result.flag     = SpmrFlag.CONVERGED;
-            result.resvec   = result.resvec(1:result.iter);
-            return;
+            break;
         end
     end
+
+    result.y        = ldivpc(M, result.y);
+    result.resvec   = result.resvec(1:result.iter);
 end

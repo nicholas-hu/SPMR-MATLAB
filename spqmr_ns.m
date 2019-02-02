@@ -1,64 +1,74 @@
 function result = spqmr_ns(varargin)
     % Parse arguments
 
-    inp         = inputParser;
+    inp     = inputParser;
 
     inp.addRequired('K');
     inp.addRequired('f');
     inp.addParameter('tol', 1e-6);
     inp.addParameter('maxit', 10);
+    inp.addParameter('precond', []);
 
     inp.parse(varargin{:});
-    args        = inp.Results;
+    args    = inp.Results;
 
     % Extract arguments
 
-    K           = args.K;
-    f           = args.f;
-    tol         = args.tol;
-    maxit       = args.maxit;
+    K       = args.K;
+    f       = args.f;
+    tol     = args.tol;
+    maxit   = args.maxit;
+    M       = args.precond;
 
     % Initialize SIMBO-NS variables
-    
-    H1t_f       = multrans(K.H1, -f);
 
-    chi         = dot(H1t_f, H1t_f);
-    delta       = sqrt(abs(chi));
-    v           = H1t_f / delta;
-    beta        = sign(chi) * delta;
-    z           = H1t_f / beta;
+    H1t_f   = multrans(K.H1, -f);
 
-    u           = mul(K.H2, v);
-    w           = mul(K.H1, z);
-    u_hat       = mul(K.A, u);
-    w_hat       = multrans(K.A, w);
+    v_hat   = ldivpc(M, H1t_f);
+    z_hat   = v_hat;
 
-    xi          = dot(u_hat, w);
-    alpha       = sqrt(abs(xi));
-    gamma       = alpha;
+    chi     = dot(H1t_f, v_hat);
+    delta   = sqrt(abs(chi));
+    beta    = sign(chi) * delta;
 
-    u           = sign(xi) / alpha * u;
-    w           = sign(xi) / gamma * w;
-    
+    v       = H1t_f / delta;
+    z       = H1t_f / beta;
+    v_hat   = v_hat / delta;
+    z_hat   = z_hat / beta;
+
+    u       = mul(K.H2, v_hat);
+    w       = mul(K.H1, z_hat);
+    u_hat   = mul(K.A, u);
+    w_hat   = multrans(K.A, w);
+
+    xi      = dot(u_hat, w);
+    alpha   = sqrt(abs(xi));
+    gamma   = alpha;
+
+    u       = sign(xi) / alpha * u;
+    w       = sign(xi) / gamma * w;
+
     % Initialize QR variables
 
-    rho_bar     = gamma;
-    phi_bar     = delta;
+    rho_bar = gamma;
+    phi_bar = delta;
 
     % Initialize variables for x updates
 
-    p           = zeros(K.n, 1);
-    d           = u;
+    p       = zeros(K.n, 1);
+    d       = u;
 
     % Initialize variables for residual updates
 
     result.resvec   = zeros(min(K.n - K.m, maxit), 1);
-    
-    relres          = 1;
-    norm_f          = norm(f);
+
+    relres  = 1;
+    norm_f  = norm(f);
 
     % Finish setting up
-    
+
+    result.iter = 0;
+
     if abs(xi) < eps
         result.x        = -p;
         result.flag     = SpmrFlag.OTHER;
@@ -67,40 +77,40 @@ function result = spqmr_ns(varargin)
     end
 
     result.flag = SpmrFlag.MAXIT_EXCEEDED;
-    result.iter = 0;
 
     % SPQMR-NS iteration
 
     while result.iter < K.m
         if result.iter > maxit
-            result.x        = -p;
             result.iter     = maxit;
-            result.resvec   = result.resvec(1:result.iter);
-            return;
+            break;
         elseif abs(xi) < eps
-            result.x        = -p;
             result.flag     = SpmrFlag.OTHER;
             result.iter     = result.iter - 1;
-            result.resvec   = result.resvec(1:result.iter);
-            return;
+            break;
         end
 
         % SIMBO-NS iteration
 
         u_hat   = sign(xi) / alpha * u_hat;
         w_hat   = sign(xi) / gamma * w_hat;
-        
+
         v       = multrans(K.H1, u_hat) - gamma * v;
         z       = multrans(K.H2, w_hat) - alpha * z;
-        
-        chi     = dot(z, v);
+        v_hat   = ldivpc(M, v);
+        z_hat   = ldivpc(M, z);
+
+        chi     = dot(z, v_hat);
         delta   = sqrt(abs(chi));
-        v       = v / delta;
         beta    = sign(chi) * delta;
+
+        v       = v / delta;
         z       = z / beta;
-        
-        u       = mul(K.H2, v) - sign(xi) * beta * u;
-        w       = mul(K.H1, z) - sign(xi) * delta * w;
+        v_hat   = v_hat / delta;
+        z_hat   = z_hat / beta;
+
+        u       = mul(K.H2, v_hat) - sign(xi) * beta * u;
+        w       = mul(K.H1, z_hat) - sign(xi) * delta * w;
         u_hat   = mul(K.A, u);
         w_hat   = multrans(K.A, w);
 
@@ -129,22 +139,21 @@ function result = spqmr_ns(varargin)
 
         % Update residual
 
-        result.iter     = result.iter + 1;
+        result.iter = result.iter + 1;
 
-        relres                          = relres * s;
-        result.resvec(result.iter)      = sqrt(result.iter) * relres;
+        relres                      = relres * s;
+        result.resvec(result.iter)  = sqrt(result.iter) * relres;
 
         if result.resvec(result.iter) < tol
-            norm_r      = norm(multrans(K.H1, mul(K.A, p)) - H1t_f);
+            norm_r  = norm(multrans(K.H1, mul(K.A, p)) - H1t_f);
 
             if norm_r < tol * norm_f
-                result.x        = -p;
                 result.flag     = SpmrFlag.CONVERGED;
-                result.resvec   = result.resvec(1:result.iter);
-                return;
+                break;
             end
         end
     end
-    
-    result.x    = -p;
+
+    result.x        = -p;
+    result.resvec   = result.resvec(1:result.iter);
 end

@@ -1,4 +1,30 @@
 function result = spqmr_ns(varargin)
+
+% SPQMR_NS   Saddle-Point Quasi-Minimal Residual, Null Space-based Method.
+%    result = SPQMR_NS(K, f) solves the saddle-point system 
+%       K * [x; y] = [f; zeros(m, 1)],
+%    where K is a saddle-point matrix represented by a struct constructed 
+%    using spmr_ns_matrix.
+%
+%    Optional parameters:
+%       tol:     the relative residual tolerance (default: 1e-6),
+%       maxit:   the maximum number of iterations to perform (default: 10),
+%       precond: a symmetric positive-definite preconditioner, given as a
+%                matrix or function handle (default: [no preconditioner]).
+%
+%    result is a struct with fields x, flag, iter, and resvec, where
+%       flag is one of
+%          CONVERGED:      the relative residual or estimate thereof fell 
+%                          below the prescribed tolerance,
+%          MAXIT_EXCEEDED: the maximum number of iterations was performed,
+%          OTHER:          some computed quantity became too small,
+%       iter is the number of iterations performed, and
+%       resvec is the vector of relative residuals or estimates thereof.
+%    
+%    Note that y must be recovered separately!
+%
+%    See also SPMR_NS_MATRIX.
+
     % Parse arguments
 
     inp     = inputParser;

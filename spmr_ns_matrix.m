@@ -1,4 +1,22 @@
 function K = spmr_ns_matrix(A, H1, H2, n, m, l)
+
+% SPMR_NS_MATRIX   Construct a saddle-point matrix for use with null
+%                  space-based methods.
+%    K = SPMR_NS_MATRIX(A, H1, H2, n, m, l) 'constructs' the saddle-point 
+%    matrix
+%       [A G1'; G2 zeros(m, m)],
+%    where A, H1, and H2 are matrices or function handles; A is n-by-n; 
+%    and H1 and H2 are n-by-l nullspace bases for G1 and G2, respectively.
+%
+%    Typically, l = n-m (when an explicit basis is used) or l = n (when a
+%    projection is used).
+%   
+%    When a function handle f is given in place of A (resp., H1, H2), 
+%    f(x, 1) should return A * x (resp., H1 * x, H2 * x), and f(x, 2) 
+%    should return A' * x (resp., H1' * x, H2' * x).
+%    
+%    See also: TRANSFUNC_WRAPPER.
+
     if ~(isa(A, 'numeric') || isa(A, 'function_handle'))
         error('A must be numeric or a function handle')
     elseif ~(isa(H1, 'numeric') || isa(H1, 'function_handle'))

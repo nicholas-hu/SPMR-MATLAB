@@ -1,4 +1,28 @@
 function result = spmr_sc(varargin)
+    
+% SPMR_SC   Saddle-Point Minimal Residual, Schur Complement-based Method.
+%    result = SPMR_SC(K, g) solves the saddle-point system 
+%       K * [x; y] = [zeros(n, 1); g],
+%    where K is a saddle-point matrix represented by a struct constructed 
+%    using spmr_sc_matrix.
+%
+%    Optional parameters:
+%       tol:     the relative residual tolerance (default: 1e-6),
+%       maxit:   the maximum number of iterations to perform (default: 10),
+%       precond: a symmetric positive-definite preconditioner, given as a
+%                matrix or function handle (default: [no preconditioner]).
+%
+%    result is a struct with fields x, y, flag, iter, and resvec, where
+%       flag is one of
+%          CONVERGED:      the relative residual or estimate thereof fell 
+%                          below the prescribed tolerance,
+%          MAXIT_EXCEEDED: the maximum number of iterations was performed,
+%          OTHER:          some computed quantity became too small,
+%       iter is the number of iterations performed, and
+%       resvec is the vector of relative residuals or estimates thereof.
+%
+%    See also SPMR_SC_MATRIX.
+
     % Parse arguments
 
     inp     = inputParser;

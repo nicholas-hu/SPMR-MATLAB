@@ -1,0 +1,146 @@
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration build-checksum="2907360927" file="/home/nicholas/SPMR-MATLAB/SPMR-MATLAB.prj" location="/home/nicholas/SPMR-MATLAB" name="SPMR-MATLAB" target="target.toolbox" target-name="Package Toolbox">
+    <param.appname>SPMR-MATLAB</param.appname>
+    <param.authnamewatermark>Nicholas Hu</param.authnamewatermark>
+    <param.email>nicholas.hu@alumni.ubc.ca</param.email>
+    <param.company />
+    <param.summary>A family of saddle-point minimal residual solvers</param.summary>
+    <param.description />
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.output>${PROJECT_ROOT}/SPMR-MATLAB.mltbx</param.output>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.guid>5bd49b84-4ea4-4608-9f00-9756813d351c</param.guid>
+    <param.exclude.filters />
+    <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples&gt;
+   &lt;exampleCategory name="SPMR-MATLAB"&gt;
+      &lt;example name="grcar_ns" type="html"&gt;
+         &lt;file type="source"&gt;/html/grcar_ns.html&lt;/file&gt;
+         &lt;file type="main"&gt;/grcar_ns.m&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="grcar_sc" type="html"&gt;
+         &lt;file type="source"&gt;/html/grcar_sc.html&lt;/file&gt;
+         &lt;file type="main"&gt;/grcar_sc.m&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+      &lt;example name="maxwell_ns" type="html"&gt;
+         &lt;file type="source"&gt;/html/maxwell_ns.html&lt;/file&gt;
+         &lt;file type="main"&gt;/maxwell_ns.m&lt;/file&gt;
+         &lt;file type="thumbnail"/&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+&lt;/examples&gt;</param.examples>
+    <param.demosxml />
+    <param.apps />
+    <param.registered.apps />
+    <param.docs>${PROJECT_ROOT}/info.xml</param.docs>
+    <param.getting.started.guide>${PROJECT_ROOT}/doc/GettingStarted.mlx</param.getting.started.guide>
+    <param.matlabpath.excludes />
+    <param.javaclasspath.excludes />
+    <param.exported.on.package>true</param.exported.on.package>
+    <param.release.start />
+    <param.release.end />
+    <param.release.current.only>false</param.release.current.only>
+    <param.compatiblity.windows>true</param.compatiblity.windows>
+    <param.compatiblity.macos>true</param.compatiblity.macos>
+    <param.compatiblity.linux>true</param.compatiblity.linux>
+    <param.compatiblity.matlabonline>true</param.compatiblity.matlabonline>
+    <param.installation.map />
+    <param.additional.sw.names />
+    <param.additional.sw.licenses />
+    <param.additional.sw.win.url />
+    <param.additional.sw.mac.url />
+    <param.additional.sw.linux.url />
+    <unset>
+      <param.company />
+      <param.description />
+      <param.screenshot />
+      <param.version />
+      <param.output />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+      <param.exclude.filters />
+      <param.exclude.pcodedmfiles />
+      <param.demosxml />
+      <param.apps />
+      <param.registered.apps />
+      <param.matlabpath.excludes />
+      <param.javaclasspath.excludes />
+      <param.release.start />
+      <param.release.end />
+      <param.release.current.only />
+      <param.compatiblity.windows />
+      <param.compatiblity.macos />
+      <param.compatiblity.linux />
+      <param.compatiblity.matlabonline />
+      <param.installation.map />
+      <param.additional.sw.names />
+      <param.additional.sw.licenses />
+      <param.additional.sw.win.url />
+      <param.additional.sw.mac.url />
+      <param.additional.sw.linux.url />
+    </unset>
+    <fileset.rootdir>
+      <file>/home/nicholas/SPMR-MATLAB</file>
+    </fileset.rootdir>
+    <fileset.rootfiles>
+      <file>${PROJECT_ROOT}/.git</file>
+      <file>${PROJECT_ROOT}/.gitignore</file>
+      <file>${PROJECT_ROOT}/README.md</file>
+      <file>${PROJECT_ROOT}/SpmrFlag.m</file>
+      <file>${PROJECT_ROOT}/demos.xml</file>
+      <file>${PROJECT_ROOT}/grcar_ns.m</file>
+      <file>${PROJECT_ROOT}/grcar_sc.m</file>
+      <file>${PROJECT_ROOT}/html</file>
+      <file>${PROJECT_ROOT}/info.xml</file>
+      <file>${PROJECT_ROOT}/ldiv.m</file>
+      <file>${PROJECT_ROOT}/ldivpc.m</file>
+      <file>${PROJECT_ROOT}/ldivtrans.m</file>
+      <file>${PROJECT_ROOT}/matrices_homogeneous3.mat</file>
+      <file>${PROJECT_ROOT}/maxwell_ns.m</file>
+      <file>${PROJECT_ROOT}/mul.m</file>
+      <file>${PROJECT_ROOT}/multrans.m</file>
+      <file>${PROJECT_ROOT}/spmr_ns.m</file>
+      <file>${PROJECT_ROOT}/spmr_ns_matrix.m</file>
+      <file>${PROJECT_ROOT}/spmr_sc.m</file>
+      <file>${PROJECT_ROOT}/spmr_sc_matrix.m</file>
+      <file>${PROJECT_ROOT}/spqmr_ns.m</file>
+      <file>${PROJECT_ROOT}/spqmr_sc.m</file>
+      <file>${PROJECT_ROOT}/transfunc_wrapper.m</file>
+    </fileset.rootfiles>
+    <fileset.depfun.included />
+    <fileset.depfun.excluded />
+    <fileset.package />
+    <build-deliverables>
+      <file location="/home/nicholas/SPMR-MATLAB" name="SPMR-MATLAB.mltbx" optional="false">/home/nicholas/SPMR-MATLAB/SPMR-MATLAB.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2018b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>4.15.0-46-generic</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

@@ -6,4 +6,4 @@ SPMR: A family of saddle-point minimal residual solvers
 
 ## Installation
 
-Install the [SPMR-MATLAB toolbox](SPMR-MATLAB.mltbx).
+Install the [SPMR-MATLAB toolbox](SPMR-MATLAB.mltbx?raw=true).

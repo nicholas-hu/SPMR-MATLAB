@@ -19,7 +19,7 @@ function result = spmr_ns(varargin)
 %          MAXIT_EXCEEDED: the maximum number of iterations was performed,
 %          OTHER:          some computed quantity became too small,
 %       iter is the number of iterations performed, and
-%       resvec is the vector of relative residuals or estimates thereof.
+%       resvec is the vector of relative residuals.
 %    
 %    Note that y must be recovered separately!
 %

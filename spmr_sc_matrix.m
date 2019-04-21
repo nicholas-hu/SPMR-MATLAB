@@ -1,7 +1,6 @@
 function K = spmr_sc_matrix(A, G1, G2, n, m)
 
-% SPMR_SC_MATRIX   Construct a saddle-point matrix for use with Schur
-%                  complement-based methods.
+% SPMR_SC_MATRIX   Construct a saddle-point matrix for use with Schur complement-based methods.
 %    K = SPMR_SC_MATRIX(A, G1, G2, n, m) 'constructs' the saddle-point 
 %    matrix
 %       [A G1'; G2 zeros(m, m)],

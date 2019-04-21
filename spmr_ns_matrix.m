@@ -1,7 +1,6 @@
 function K = spmr_ns_matrix(A, H1, H2, n, m, l)
 
-% SPMR_NS_MATRIX   Construct a saddle-point matrix for use with null
-%                  space-based methods.
+% SPMR_NS_MATRIX   Construct a saddle-point matrix for use with null space-based methods.
 %    K = SPMR_NS_MATRIX(A, H1, H2, n, m, l) 'constructs' the saddle-point 
 %    matrix
 %       [A G1'; G2 zeros(m, m)],

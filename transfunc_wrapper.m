@@ -1,7 +1,6 @@
 function f = transfunc_wrapper(f1, f2)
 
-% TRANSFUNC_WRAPPER   Wrap two single-parameter functions into a single 
-%                     two-parameter function.
+% TRANSFUNC_WRAPPER   Wrap two single-parameter functions into a single two-parameter function.
 %    f = TRANSFUNC_WRAPPER(f1, f2) returns a function handle f such that
 %    f(x, 1) = f1(x) and f(x, 2) = f2(x) for all x.
 %

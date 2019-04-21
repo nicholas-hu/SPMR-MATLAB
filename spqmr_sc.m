@@ -1,7 +1,6 @@
 function result = spqmr_sc(varargin)
 
-% SPQMR_SC   Saddle-Point Quasi-Minimal Residual, Schur Complement-based 
-%            Method.
+% SPQMR_SC   Saddle-Point Quasi-Minimal Residual, Schur Complement-based Method.
 %    result = SPQMR_SC(K, g) solves the saddle-point system 
 %       K * [x; y] = [zeros(n, 1); g],
 %    where K is a saddle-point matrix represented by a struct constructed 
@@ -20,7 +19,7 @@ function result = spqmr_sc(varargin)
 %          MAXIT_EXCEEDED: the maximum number of iterations was performed,
 %          OTHER:          some computed quantity became too small,
 %       iter is the number of iterations performed, and
-%       resvec is the vector of relative residuals or estimates thereof.
+%       resvec is a vector of relative residual estimates.
 %
 %    See also SPMR_SC_MATRIX.
 

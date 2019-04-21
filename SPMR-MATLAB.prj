@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="2907360927" file="/home/nicholas/SPMR-MATLAB/SPMR-MATLAB.prj" location="/home/nicholas/SPMR-MATLAB" name="SPMR-MATLAB" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="888507909" file="/home/nicholas/SPMR-MATLAB/SPMR-MATLAB.prj" location="/home/nicholas/SPMR-MATLAB" name="SPMR-MATLAB" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>SPMR-MATLAB</param.appname>
     <param.authnamewatermark>Nicholas Hu</param.authnamewatermark>
     <param.email>nicholas.hu@alumni.ubc.ca</param.email>
@@ -14,32 +14,33 @@
     <param.products.version />
     <param.platforms />
     <param.guid>5bd49b84-4ea4-4608-9f00-9756813d351c</param.guid>
-    <param.exclude.filters />
+    <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
+% from packaging.  Excludes should be listed relative to the toolbox folder.
+% Some examples of how to specify excludes are provided below:
+%
+% A single file in the toolbox folder:
+% .svn
+%
+% A single file in a subfolder of the toolbox folder:
+% example/.svn
+%
+% All files in a subfolder of the toolbox folder:
+% example/*
+%
+% All files of a certain name in all subfolders of the toolbox folder:
+% **/.svn
+%
+% All files matching a pattern in all subfolders of the toolbox folder:
+% **/*.bak
+%
+.git/
+.gitignore</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
-    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;examples&gt;
-   &lt;exampleCategory name="SPMR-MATLAB"&gt;
-      &lt;example name="grcar_ns" type="html"&gt;
-         &lt;file type="source"&gt;/html/grcar_ns.html&lt;/file&gt;
-         &lt;file type="main"&gt;/grcar_ns.m&lt;/file&gt;
-         &lt;file type="thumbnail"/&gt;
-      &lt;/example&gt;
-      &lt;example name="grcar_sc" type="html"&gt;
-         &lt;file type="source"&gt;/html/grcar_sc.html&lt;/file&gt;
-         &lt;file type="main"&gt;/grcar_sc.m&lt;/file&gt;
-         &lt;file type="thumbnail"/&gt;
-      &lt;/example&gt;
-      &lt;example name="maxwell_ns" type="html"&gt;
-         &lt;file type="source"&gt;/html/maxwell_ns.html&lt;/file&gt;
-         &lt;file type="main"&gt;/maxwell_ns.m&lt;/file&gt;
-         &lt;file type="thumbnail"/&gt;
-      &lt;/example&gt;
-   &lt;/exampleCategory&gt;
-&lt;/examples&gt;</param.examples>
+    <param.examples />
     <param.demosxml />
     <param.apps />
     <param.registered.apps />
-    <param.docs>${PROJECT_ROOT}/info.xml</param.docs>
+    <param.docs />
     <param.getting.started.guide>${PROJECT_ROOT}/doc/GettingStarted.mlx</param.getting.started.guide>
     <param.matlabpath.excludes />
     <param.javaclasspath.excludes />
@@ -51,13 +52,9 @@
     <param.compatiblity.macos>true</param.compatiblity.macos>
     <param.compatiblity.linux>true</param.compatiblity.linux>
     <param.compatiblity.matlabonline>true</param.compatiblity.matlabonline>
-    <param.installation.map />
-    <param.additional.sw.names />
-    <param.additional.sw.licenses />
-    <param.additional.sw.win.url />
-    <param.additional.sw.mac.url />
-    <param.additional.sw.linux.url />
     <unset>
+      <param.authnamewatermark />
+      <param.email />
       <param.company />
       <param.description />
       <param.screenshot />
@@ -67,11 +64,12 @@
       <param.products.id />
       <param.products.version />
       <param.platforms />
-      <param.exclude.filters />
       <param.exclude.pcodedmfiles />
+      <param.examples />
       <param.demosxml />
       <param.apps />
       <param.registered.apps />
+      <param.docs />
       <param.matlabpath.excludes />
       <param.javaclasspath.excludes />
       <param.release.start />
@@ -81,26 +79,15 @@
       <param.compatiblity.macos />
       <param.compatiblity.linux />
       <param.compatiblity.matlabonline />
-      <param.installation.map />
-      <param.additional.sw.names />
-      <param.additional.sw.licenses />
-      <param.additional.sw.win.url />
-      <param.additional.sw.mac.url />
-      <param.additional.sw.linux.url />
     </unset>
     <fileset.rootdir>
       <file>/home/nicholas/SPMR-MATLAB</file>
     </fileset.rootdir>
     <fileset.rootfiles>
-      <file>${PROJECT_ROOT}/.git</file>
-      <file>${PROJECT_ROOT}/.gitignore</file>
       <file>${PROJECT_ROOT}/README.md</file>
       <file>${PROJECT_ROOT}/SpmrFlag.m</file>
-      <file>${PROJECT_ROOT}/demos.xml</file>
       <file>${PROJECT_ROOT}/grcar_ns.m</file>
       <file>${PROJECT_ROOT}/grcar_sc.m</file>
-      <file>${PROJECT_ROOT}/html</file>
-      <file>${PROJECT_ROOT}/info.xml</file>
       <file>${PROJECT_ROOT}/ldiv.m</file>
       <file>${PROJECT_ROOT}/ldivpc.m</file>
       <file>${PROJECT_ROOT}/ldivtrans.m</file>
@@ -124,7 +111,7 @@
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>/usr/local/MATLAB/R2018b</root>
+      <root>/usr/local/MATLAB/R2018a</root>
       <toolboxes />
     </matlab>
     <platform>
@@ -136,7 +123,7 @@
       <vista>false</vista>
       <linux>true</linux>
       <solaris>false</solaris>
-      <osver>4.15.0-46-generic</osver>
+      <osver>4.15.0-45-generic</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>glnxa64</arch>

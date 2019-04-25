@@ -5,7 +5,7 @@ clear variables; format long;
 n = 1000;
 m = 500;
 
-A = gallery('grcar', n);
+A = sparse(gallery('grcar', n));
 F = 100 * speye(m, m);
 G1 = [F F];
 

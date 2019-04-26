@@ -2,21 +2,21 @@
 
 clear variables; format long;
 
+load('test_matrices/navier_stokes_N16.mat');
+
 % Create blocks
 
-n = 2000;
-m = 1000;
+n = size_n;
+m = size_m;
 
-A = sparse(gallery('grcar', n));
-F = 100 * speye(m, m);
-G1 = [F F];
+% (A is already in .mat file)
+G1 = B;
 
 tic;
 
 % Create saddle-point matrix and RHS vector
 
 K = [A G1'; G1 sparse(m, m)];
-g = ones(m, 1);
 
 % Create preconditioner
 
@@ -26,11 +26,11 @@ setup.type = 'nofill';
 A_func = transfunc_wrapper(@(x) U1 \ (L1 \ x), @(x) U2 \ (L2 \ x));
 
 P = spmr_sc_matrix(A_func, G1, G1, n, m);
-M_func = @(x) spgmr_inner(P, x, 10);
+M_func = @(x) spgmr_inner(P, x, n+m);
 
 % Run iteration
 
-[x, flag, relres, iter, resvec] = gmres(K, [zeros(n, 1); g], ...
-                                        1, 1e-10, n, M_func);
+[x, flag, relres, iter, resvec] = gmres(K, [f; g], ...
+                                        50, 1e-10, n+m, M_func);
 
 toc;
